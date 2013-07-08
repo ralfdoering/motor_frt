@@ -1,0 +1,50 @@
+* FORTH Image bauen
+
+Um das amFORTH 5.1 Image neu zu bauen, kann in
+[[file:~/src/avr/amforth-5.1/appl/frover-duemil/]] einfach "make"
+aufgerufen werden. Dies Applikation ist eine nahezu 1:1 Kopie des
+Templates, mit einigen wenigen Anpassungen bezüglich MCU, F_CPU und Programmer.
+
+Im einfachsten Fall (externer Programmer) kann das Image wie folgt
+installiert werden:
+
+#+BEGIN_EXAMPLE
+make
+# fuses setzen
+# make write-fuse
+make install
+#+END_EXAMPLE
+
+* Erweiterungen in frover-duemil.asm
+
+** Timer benutzen (ASM)
+
+: .set WANT_TIMER_COUNTER_0 = 1
+
+** Forth-COde?
+
+Folgender Code als Demo
+
+ - lib/hardware/timer0.frt
+ - lib/hardware/timer.frt 
+
+* Weiteren FORTH-Code, der "sinnvoll" erscheint laden
+
+ - lib/bitnames.frt
+ - lib/marker.frt
+ - lib/forth200x/synonym.frt (für ports-standard.frt)
+ - app/arduino/blocks/ports-standard
+
+** Installation
+
+:  forth_due marker.frt synonym.frt bitnames.frt ports-standard.frt 
+
+Wobei:
+
+#+BEGIN_EXAMPLE
+forth_due is a function
+forth_due () 
+{ 
+    amshell -p /dev/ttyUSB0 -s 9600 $@
+}
+#+END_EXAMPLE
