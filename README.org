@@ -23,6 +23,18 @@ robot for free and I have much shorter turn-around times.
 - There is an alternate form for each command:
   left!/right!/forward!/backward!/stop!. They do NOT stop after timeout.
 - There are shortcuts l/r/f/b/s and l!/r!/f!/b!/s! available.
- 
+
+* Included code
+
+The following files are taken from amForth 5.1 (http://amforth.sourceforge.net/)
+
+- marker.frt
+- bitnames.frt
+- synonym.frt
+- ports-standard.frt
+
+* License 
+
+This code is published under the GNU Public License v2 (GPL).
   
 
