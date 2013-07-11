@@ -2,7 +2,7 @@
 
 After having played with my Arduino motor shield (see G+ post
 https://plus.google.com/u/0/106774241636379495104/posts/Tm8v2re1iXS),
-I decided to rewrite the Arduino code to Forth. Why, you asked? Having
+I decided to rewrite the Arduino code to Forth. Why, you ask? Having
 used Forth back in th 90s (on 8 Bit Z80 clone and 8088 Intel PC), I
 still have some background in Forth and I love it ot interactively try
 out things. With Forth I get the command interpreter to control my
