@@ -39,8 +39,10 @@ These to pins map to the following Atmega 328p Pins:
 
 
 ( includes for use with amFORTH Python shell 
-#include marker.frt
+
 )
+
+( execute old marker if it exists )
 
 
 
@@ -48,20 +50,15 @@ marker _motor_shield_
 
 
 
-( includes for use with amFORTH Python shell 
-#include bitnames.frt
-#synonym.frt
-#include ports-standard.frt
-)
 
 ( NOTES for PWM  from http://www.mikrocontrollerspielwiese.de/ )
 
-\ #include <avr/io.h>
+\ include <avr/io.h>
 
 
-\ #define F_CPU 8000000UL      // 8 MHz (fuer delay.h)
+\ define F_CPU 8000000UL      // 8 MHz (fuer delay.h)
 
-\ #include <util/delay.h>
+\ include <util/delay.h>
 
 
 
