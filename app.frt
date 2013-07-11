@@ -11,7 +11,7 @@ empty amforth system.
 ( includes for use with amFORTH Python shell 
 #include marker.frt
 #include bitnames.frt
-#synonym.frt
+#include synonym.frt
 #include ports-standard.frt
 #include motor_shield.frt
 )
