@@ -97,10 +97,10 @@ synonym pin_collision_front digital.2 \ collision sensor
 synonym collision_status digital.7    \ LED for collision status
 
 
-1 constant forward 
-0 constant backward
+1 constant GO_FORWARD
+0 constant GO_BACKWARD
 
-90 value global_speed     \ default value for PWM 
+128 value global_speed     \ default value for PWM 
 
 
 
@@ -172,15 +172,107 @@ synonym collision_status digital.7    \ LED for collision status
     OCR2B c!
 ;
 
+: set_pwm_b ( c - )
+    OCR2A c!
+;
+
+
+
 \ set direction of motor_a/motor_b.
 \ use constant forward / backward for flag f
-: dir_motor_a  ( f -- )
-    pin_dir_a rot if high else low then ;
+: dir_motor_a!  ( f -- )
+    pin_dir_a rot if high else low then
+;
 
-: dir_motor_b  ( f -- )
-    pin_dir_b rot if high else low then ;
+: dir_motor_b!  ( f -- )
+    pin_dir_b rot if high else low then
+;
 
-: speed_motor_a ( u -- )
-    pwm_a
+: speed_motor_a! ( u -- )
+    set_pwm_a
 ;    
 
+: speed_motor_b! ( u -- )
+    set_pwm_b
+;
+
+: stop_motor_a
+    0 speed_motor_a!
+;
+
+: stop_motor_b
+    0 speed_motor_b!
+;
+
+: stop!
+    stop_motor_a
+    stop_motor_b
+;
+
+: stop
+    stop!
+;
+
+
+: forward!
+    GO_FORWARD dup dir_motor_a! dir_motor_b!
+    global_speed dup speed_motor_a! speed_motor_b!
+;
+
+: forward
+    forward!
+    1000 ms
+    stop!
+;
+
+: backward!
+    GO_BACKWARD dup dir_motor_a! dir_motor_b!
+    global_speed dup speed_motor_a! speed_motor_b!
+;
+
+: backward
+    backward!
+    1000 ms
+    stop!
+;
+
+
+
+: right!
+    GO_FORWARD dir_motor_b!
+    GO_BACKWARD dir_motor_a!
+    global_speed dup speed_motor_a! speed_motor_b!
+;
+
+: right
+    right!
+    1000 ms
+    stop!
+;
+
+
+: left!
+    GO_FORWARD dir_motor_a!
+    GO_BACKWARD dir_motor_b!
+    global_speed dup speed_motor_a! speed_motor_b!
+;
+
+: left
+    left!
+    1000 ms
+    stop!
+;
+
+\ some short short-cuts
+
+synonym s stop
+synonym l left
+synonym r right
+synonym f forward
+synonym b backward
+
+synonym s! stop!
+synonym l! left!
+synonym r! right!
+synonym f! forward!
+synonym b! backward!
