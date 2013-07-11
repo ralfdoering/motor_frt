@@ -23,7 +23,20 @@ For this code to work we need:
 - app/arduino/blocks/ports-standard.frt:
   from amFORTH 5.1 for definitions of digital.X pin layout.
 
+
+PWM information:
+
+The motor shield is connected to the Arduino PWM-capable
+pins digital.11 and digital.3.
+These to pins map to the following Atmega 328p Pins:
+
+| *Arduino*  | *Atmega* | *PWM channel* |
+| digital.11 | PB3      |  OC2A         |
+| digital.3  | PD3      |  OC2B         |
+
 )
+
+
 
 ( includes for use with amFORTH Python shell 
 #include marker.frt
@@ -40,6 +53,41 @@ marker _motor_shield_
 #synonym.frt
 #include ports-standard.frt
 )
+
+( NOTES for PWM  from http://www.mikrocontrollerspielwiese.de/ )
+
+\ #include <avr/io.h>
+
+
+\ #define F_CPU 8000000UL      // 8 MHz (fuer delay.h)
+
+\ #include <util/delay.h>
+
+
+
+\ int main(void){
+
+    
+\     //Hardware-PWM initialisieren
+\     DDRB |= _BV(PB2);
+
+\     TCCR0A = (1<<WGM11) | (1<<WGM10) | (1<<COM1A1); TCCR0B = (1<<CS10); 
+
+     
+\     while(1){
+
+\         OCR0A = 0;   _delay_ms(250);_delay_ms(250); //dunkel
+\         OCR0A = 30;  _delay_ms(250);_delay_ms(250); //schwach leuchtend
+\         OCR0A = 80;  _delay_ms(250);_delay_ms(250); //staerker leuchtend
+\         OCR0A = 255; _delay_ms(250);_delay_ms(250); //volle Helligkeit
+
+\     }
+
+
+\     return 0;
+\ }
+
+
 
 
 \ pin layout matching an Arduino motor shield on
