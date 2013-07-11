@@ -102,6 +102,8 @@ synonym collision_status digital.7    \ LED for collision status
 
 90 value global_speed     \ default value for PWM 
 
+
+
 \ setup the system
 \ FIXME: 
 : setup      ( -- )
@@ -123,6 +125,53 @@ synonym collision_status digital.7    \ LED for collision status
 ;
 
 
+\ seems defintions for PWM related TCCR settings are
+\ not complete, (re)define them
+
+\ take the position of a bit and make a value out of it
+\ for instance: 2 bit2val --> create binary value 00000100
+\ technicaly: 1 n lshift (in C speek: 1 << n)
+: bit2val     ( n - n' )
+    1 swap lshift
+;
+\ we need only TCCR2
+0 bit2val constant TCCR2A_WGM20
+1 bit2val constant TCCR2A_WGM21
+4 bit2val constant TCCR2A_COM2B0
+5 bit2val constant TCCR2A_COM2B1
+6 bit2val constant TCCR2A_COM2A0
+7 bit2val constant TCCR2A_COM2A1
+
+0 bit2val constant TCCR2B_CS20
+1 bit2val constant TCCR2B_CS21
+2 bit2val constant TCCR2B_CS22
+6 bit2val constant TCCR2B_FOC2B
+7 bit2val constant TCCR2B_FOC2A
+
+
+    
+
+
+: setup_pwm ( -- )
+    \ make sure pwm_b is an output
+    pwm_b pin_output
+    \ setup timer2:
+    \    phase correct pwm
+    TCCR2A_WGM20
+    \ enable OC2B and OC1A
+    TCCR2A_COM2B1 or
+    TCCR2A_COM2A1 or
+    TCCR2A c!  
+    \ setup timer 2
+    \ prescale 64
+    TCCR2B_CS22 TCCR2B c!
+;
+
+
+: set_pwm_a ( c - )
+    OCR2B c!
+;
+
 \ set direction of motor_a/motor_b.
 \ use constant forward / backward for flag f
 : dir_motor_a  ( f -- )
@@ -133,5 +182,5 @@ synonym collision_status digital.7    \ LED for collision status
 
 : speed_motor_a ( u -- )
     pwm_a
-    
+;    
 
