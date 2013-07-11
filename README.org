@@ -8,5 +8,21 @@ still have some background in Forth and I love it ot interactively try
 out things. With Forth I get the command interpreter to control my
 robot for free and I have much shorter turn-around times.
 
-x
+* Quick setup notes
+
+- Unfortunately you have to built your own amForth image, because the
+  provided HEX files for Arduino boards ins amForth 5.1 do not have 
+  timers enabled
+- I will provide detailed setup instructions in the future...
+- after burning the amForth HEX to your Arduino, use amforth-shell.py
+  from amForth to load app.frt. This will load all the deps and my code.
+- As I haven't enabled turnkey, you have to call setup and setup_pwm 
+- There are simple movement commands:
+  left/right/forward/backward/stop. These do what the say, but stop
+  after 1 second.
+- There is an alternate form for each command:
+  left!/right!/forward!/backward!/stop!. They do NOT stop after timeout.
+- There are shortcuts l/r/f/b/s and l!/r!/f!/b!/s! available.
+ 
+  
 
